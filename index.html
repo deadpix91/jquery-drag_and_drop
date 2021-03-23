@@ -1,0 +1,77 @@
+<html>
+	<head>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+		<title>Teste Rafa</title>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+		<style>
+		#conteudo{
+			display:flex;
+			flex-direction:row;
+			height:100%;
+		}
+		#desktop{
+			flex:1;
+			background-color:#CCC;
+			background-size: 40px 40px;
+			background-image:
+			linear-gradient(to right, grey 1px, transparent 1px),
+			linear-gradient(to bottom, grey 1px, transparent 1px);
+			overflow:auto;
+		}
+		#worksheet{
+			min-width:100%;
+			min-height:100%;
+			position:relative;
+		}
+		#ferramentas{
+			width:300px;
+			overflow:auto;
+		}
+		</style>
+	</head>
+	<body>
+		<div id="conteudo">
+			<div id="desktop">
+				<div id="worksheet"></div>
+			</div>
+			<div id="ferramentas">
+				<h3>Ferramentas</h3>
+				<div class="elemento circulo">
+					<svg height="100" width="100">
+					  <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+					</svg>
+				</div>
+				<div class="elemento quadrado">
+					<svg width="150" height="110">
+					  <rect width="100" height="100" style="fill:rgb(0,0,255);stroke-width:3;stroke:rgb(0,0,0)" />
+					</svg>
+				</div>
+				<div class="elemento triangulo">
+					<svg height="210" width="100">
+					  <polygon points="50,10 100,100 0,100" style="fill:lime;stroke:purple;stroke-width:1" />
+					</svg>
+				</div>
+			</div>
+		</div>
+		<script>
+		$(function(){
+			$(".elemento").draggable({
+				appendTo: "#worksheet",
+				cursor: "move",
+				helper: 'clone'
+			});
+			$("#worksheet").droppable({
+				accept: '.elemento',
+				drop: function(e, ui) {
+					var parentOffset = $('#desktop').offset();
+					var off = $(ui.draggable).clone().offset();
+					if (!ui.draggable.hasClass("dropped"))
+					jQuery(this).append(jQuery(ui.draggable).clone().addClass("dropped").draggable().css({'position': 'absolute', 'left': (ui.position.left - parentOffset.left) + 'px', 'top': (ui.position.top - parentOffset.top) + 'px'}));
+				}
+			});
+		});
+		</script>
+	</body>
+</html>
